@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "885639785734",
+    "firebase_url": "https://safargoapp-default-rtdb.firebaseio.com",
+    "project_id": "safargoapp",
+    "storage_bucket": "safargoapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885639785734:android:d67f10044d59a70f468287",
+        "android_client_info": {
+          "package_name": "com.example.safargoapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeH5cJVJib1E-jzqlSXyGPglGdfBGlE54"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
