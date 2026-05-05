@@ -417,12 +417,12 @@ class _HomeScreenState extends State<HomeScreen>
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.menu),
+        //     onPressed: () => Scaffold.of(context).openDrawer(),
+        //   ),
+        // ],
       ),
 
       drawer: Drawer(
