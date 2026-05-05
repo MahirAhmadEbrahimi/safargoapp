@@ -45,8 +45,65 @@ class MyApp extends StatelessWidget {
         ),
       ),
 
-      // 🔥 START FROM LOGIN
-      home: const LoginScreen(),
+      // 🔥 START FROM WELCOME SCREEN
+      home: const WelcomeSplashScreen(),
+    );
+  }
+}
+
+class WelcomeSplashScreen extends StatefulWidget {
+  const WelcomeSplashScreen({super.key});
+
+  @override
+  State<WelcomeSplashScreen> createState() => _WelcomeSplashScreenState();
+}
+
+class _WelcomeSplashScreenState extends State<WelcomeSplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 3), () {
+      if (!mounted) return;
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          child: Column(
+            children: [
+              const Spacer(),
+              const Text(
+                'Welcome to\nSafar Go App',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 34,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                  height: 1.25,
+                ),
+              ),
+              const Spacer(),
+              Text(
+                'Your trusted travel partner across Afghanistan.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.blue.shade700,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
