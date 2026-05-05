@@ -7,9 +7,7 @@ import 'login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }
 
@@ -40,13 +38,24 @@ class _HomeScreenState extends State<HomeScreen>
   String payment = "پرداخت";
   List<int> selectedSeats = [];
 
-
   late AnimationController _controller;
 
   final List<String> provinces = [
-    "کابل", "هرات", "مزار شریف", "قندهار", "جلال‌آباد",
-    "بلخ", "غزنی", "خوست", "پکتیا", "بدخشان",
-    "بغلان", "فراه", "لوگر", "پروان", "سمنگان"
+    "کابل",
+    "هرات",
+    "مزار شریف",
+    "قندهار",
+    "جلال‌آباد",
+    "بلخ",
+    "غزنی",
+    "خوست",
+    "پکتیا",
+    "بدخشان",
+    "بغلان",
+    "فراه",
+    "لوگر",
+    "پروان",
+    "سمنگان",
   ];
 
   final List<String> payments = ["پول الکترونیکی 💳", "نقدی 💵"];
@@ -90,11 +99,12 @@ class _HomeScreenState extends State<HomeScreen>
                     GridView.builder(
                       shrinkWrap: true,
                       itemCount: 20,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                      ),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                          ),
                       itemBuilder: (context, index) {
                         int seat = index + 1;
                         bool selected = selectedSeats.contains(seat);
@@ -119,7 +129,9 @@ class _HomeScreenState extends State<HomeScreen>
                             child: Center(
                               child: Text(
                                 "$seat",
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
@@ -147,6 +159,7 @@ class _HomeScreenState extends State<HomeScreen>
         },
       );
     }
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -165,10 +178,10 @@ class _HomeScreenState extends State<HomeScreen>
           children: items
               .map(
                 (e) => ListTile(
-              title: Text(e),
-              onTap: () => Navigator.pop(context, e),
-            ),
-          )
+                  title: Text(e),
+                  onTap: () => Navigator.pop(context, e),
+                ),
+              )
               .toList(),
         );
       },
@@ -217,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen>
                 color: Colors.black26,
                 blurRadius: 6,
                 offset: Offset(0, 3),
-              )
+              ),
             ],
           ),
           child: Row(
@@ -259,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
                 const SizedBox(height: 10),
                 ...services.map(
-                      (s) => ListTile(
+                  (s) => ListTile(
                     leading: Icon(s["icon"], color: Colors.blue),
                     title: Text(s["title"]),
                   ),
@@ -275,19 +288,20 @@ class _HomeScreenState extends State<HomeScreen>
         MaterialPageRoute(builder: (_) => const ReportScreen()),
       );
     } else if (page == "contact") {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Contact: 0778511935")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Contact: 0778511935")));
     }
     // ❌ REMOVED BOOKINGS (as you requested)
     else if (page == "logout") {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (_) => const LoginScreen()),
-            (route) => false,
+        (route) => false,
       );
     }
   }
+
   void pickSeats() {
     showDialog(
       context: context,
@@ -334,7 +348,7 @@ class _HomeScreenState extends State<HomeScreen>
                 TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text("تمام"),
-                )
+                ),
               ],
             );
           },
@@ -342,6 +356,7 @@ class _HomeScreenState extends State<HomeScreen>
       },
     );
   }
+
   void confirmBooking() {
     if (from == "از ولایت" || to == "به ولایت") {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -382,9 +397,9 @@ class _HomeScreenState extends State<HomeScreen>
 
               Navigator.pop(context);
 
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Ticket Booked 🎉")),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(const SnackBar(content: Text("Ticket Booked 🎉")));
             },
             child: const Text("Confirm"),
           ),
@@ -398,16 +413,16 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "safar Go",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-            letterSpacing: 1.2,
-          ),
+          "SafeGo",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ),
         centerTitle: true,
-        backgroundColor: Colors.blueAccent,
-        elevation: 9,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ],
       ),
 
       drawer: Drawer(
@@ -415,7 +430,10 @@ class _HomeScreenState extends State<HomeScreen>
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(color: Colors.blue),
-              child: Text("Menu", style: TextStyle(color: Colors.white)),
+              child: Text(
+                "Menu",
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
             ),
 
             ListTile(
@@ -453,88 +471,157 @@ class _HomeScreenState extends State<HomeScreen>
         ),
       ),
 
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: const NetworkImage(
-              "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957",
-            ),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Container(
-          color: Colors.black.withOpacity(0.6),
-          child: SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 30),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              // Search Card
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Find Your Trip",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
 
-                    box(from, Icons.location_on,
-                            () => pick(provinces, (v) => setState(() => from = v))),
+                      box(
+                        from,
+                        Icons.location_on,
+                        () => pick(provinces, (v) => setState(() => from = v)),
+                      ),
 
-                    Center(
-                      child: RotationTransition(
-                        turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
+                      Center(
+                        child: RotationTransition(
+                          turns: Tween(
+                            begin: 0.0,
+                            end: 1.0,
+                          ).animate(_controller),
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.blue,
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                              onPressed: swap,
+                              icon: const Icon(
+                                Icons.swap_vert,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
-                          child: IconButton(
-                            onPressed: swap,
-                            icon: const Icon(Icons.swap_vert, size: 30),
-                          ),
                         ),
                       ),
-                    ),
 
-                    box(to, Icons.flag,
-                            () => pick(provinces, (v) => setState(() => to = v))),
+                      box(
+                        to,
+                        Icons.flag,
+                        () => pick(provinces, (v) => setState(() => to = v)),
+                      ),
 
-                    box(date, Icons.date_range, pickDate),
+                      box(date, Icons.date_range, pickDate),
 
-                    box(payment, Icons.payment,
-                            () => pick(payments, (v) => setState(() => payment = v))),
+                      box(
+                        payment,
+                        Icons.payment,
+                        () =>
+                            pick(payments, (v) => setState(() => payment = v)),
+                      ),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 16),
 
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (from == "از ولایت" || to == "به ولایت") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Please select route"),
+                                ),
+                              );
+                              return;
+                            }
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => TripsScreen(from: from, to: to),
+                              ),
+                            );
+                          },
+                          child: const Text("SEARCH TRIPS"),
                         ),
                       ),
-                      onPressed: pickSeats,
-                      child: Text(
-                        "انتخاب چوکی (${selectedSeats.length})",
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
-                        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-                      onPressed: confirmBooking,
-                      child: const Text(
-                        "Book / Confirm Ticket",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
+
+              const SizedBox(height: 20),
+
+              // Services Section
+              const Text(
+                "Our Services",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
+              const SizedBox(height: 10),
+
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                ),
+                itemCount: services.length,
+                itemBuilder: (context, index) {
+                  final service = services[index];
+                  return Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: InkWell(
+                      onTap: () => navigateTo("services"),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(service["icon"], size: 40, color: Colors.blue),
+                            const SizedBox(height: 8),
+                            Text(
+                              service["title"],
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),

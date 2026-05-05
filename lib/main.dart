@@ -19,8 +19,31 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      // 🔥 THEME (optional but cleaner UI)
-      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
+      // 🔥 MODERN THEME WITH 2 COLORS: BLUE AND WHITE
+      theme: ThemeData(
+        primaryColor: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+        colorScheme: const ColorScheme.light(
+          primary: Colors.blue,
+          secondary: Colors.white,
+          surface: Colors.white,
+        ),
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ),
 
       // 🔥 START FROM LOGIN
       home: const LoginScreen(),

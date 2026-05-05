@@ -70,32 +70,67 @@ class _TripsScreenState extends State<TripsScreen> {
     return Scaffold(
       appBar: AppBar(title: Text("${widget.from} → ${widget.to}")),
 
-      body: ListView.builder(
-        itemCount: trips.length,
-        itemBuilder: (_, i) {
-          final trip = trips[i];
-
-          return Card(
-            margin: const EdgeInsets.all(10),
-            child: ListTile(
-              title: Text(trip["type"] ?? "Unknown"),
-              subtitle: Text("⏰ ${trip["time"] ?? ""}"),
-
-              trailing: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("$price AFN"),
-                  const SizedBox(height: 5),
-
-                  ElevatedButton(
-                    onPressed: () => bookTicket(trip),
-                    child: const Text("Book"),
-                  ),
-                ],
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const Text(
+              "Available Trips",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
               ),
             ),
-          );
-        },
+            const SizedBox(height: 16),
+
+            Expanded(
+              child: ListView.builder(
+                itemCount: trips.length,
+                itemBuilder: (_, i) {
+                  final trip = trips[i];
+
+                  return Card(
+                    elevation: 3,
+                    margin: const EdgeInsets.only(bottom: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: ListTile(
+                      leading: const Icon(
+                        Icons.directions_bus,
+                        color: Colors.blue,
+                        size: 32,
+                      ),
+                      title: Text(
+                        trip["type"] ?? "Unknown",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text("⏰ ${trip["time"] ?? ""}"),
+                      trailing: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "$price AFN",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          ElevatedButton(
+                            onPressed: () => bookTicket(trip),
+                            child: const Text("Book"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
