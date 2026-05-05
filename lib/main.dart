@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import "screens/login_screen.dart";
 
-void main() {
-  runApp(const MainApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 🔥 LOCK PORTRAIT (like your previous setup)
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(child: Text('Hello World! This is a Flutter app.')),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+
+      // 🔥 THEME (optional but cleaner UI)
+      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
+
+      // 🔥 START FROM LOGIN
+      home: const LoginScreen(),
     );
   }
 }
