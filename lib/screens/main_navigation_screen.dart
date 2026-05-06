@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import 'booking_screen.dart';
 import 'home_screen.dart';
 import 'profile_screen.dart';
@@ -25,6 +26,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: const Color(0xFFF3F4F6),
       body: _screens[_currentIndex],
@@ -33,13 +35,13 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         selectedIndex: _currentIndex,
         indicatorColor: const Color(0xFFDBEAFE),
         onDestinationSelected: (index) => setState(() => _currentIndex = index),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Home'),
+        destinations: [
+          NavigationDestination(icon: const Icon(Icons.home_outlined), label: tr.t('home')),
           NavigationDestination(
-              icon: Icon(Icons.calendar_today_outlined), label: 'Booking'),
-          NavigationDestination(icon: Icon(Icons.layers_outlined), label: 'Services'),
-          NavigationDestination(icon: Icon(Icons.headset_mic_outlined), label: 'Support'),
-          NavigationDestination(icon: Icon(Icons.person_outline), label: 'Profile'),
+              icon: const Icon(Icons.calendar_today_outlined), label: tr.t('booking')),
+          NavigationDestination(icon: const Icon(Icons.layers_outlined), label: tr.t('services')),
+          NavigationDestination(icon: const Icon(Icons.headset_mic_outlined), label: tr.t('support')),
+          NavigationDestination(icon: const Icon(Icons.person_outline), label: tr.t('profile')),
         ],
       ),
     );

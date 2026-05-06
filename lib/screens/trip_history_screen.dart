@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
+import '../l10n/app_localizations.dart';
 import '../services/booking_service.dart';
 
 enum ReportFilter { day, week, month, year }
@@ -97,15 +98,16 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
   bool get _hasMore => _bookings.length < _filteredBookings.length;
 
   Future<void> _exportPdf() async {
+    final tr = AppLocalizations.of(context);
     if (_bookings.isEmpty) {
-      _showBlueSnack('No booking data to export');
+      _showBlueSnack(tr.t('noDataExport'));
       return;
     }
     final doc = pw.Document();
     doc.addPage(
       pw.MultiPage(
         build: (context) => [
-          pw.Header(level: 0, child: pw.Text('Trip History Report')),
+          pw.Header(level: 0, child: pw.Text(tr.t('tripHistoryReport'))),
           pw.TableHelper.fromTextArray(
             headers: const ['Date', 'Route', 'Vehicle', 'Passengers', 'Price'],
             data: _bookings.map((b) {
@@ -128,15 +130,16 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
   }
 
   Future<void> _printPdf() async {
+    final tr = AppLocalizations.of(context);
     if (_bookings.isEmpty) {
-      _showBlueSnack('No booking data to print');
+      _showBlueSnack(tr.t('noDataPrint'));
       return;
     }
     final doc = pw.Document();
     doc.addPage(
       pw.MultiPage(
         build: (context) => [
-          pw.Header(level: 0, child: pw.Text('Trip History Report')),
+          pw.Header(level: 0, child: pw.Text(tr.t('tripHistoryReport'))),
           pw.TableHelper.fromTextArray(
             headers: const ['Date', 'Route', 'Vehicle', 'Passengers', 'Price'],
             data: _bookings.map((b) {
@@ -158,8 +161,9 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
   }
 
   Future<void> _exportExcel() async {
+    final tr = AppLocalizations.of(context);
     if (_bookings.isEmpty) {
-      _showBlueSnack('No booking data to export');
+      _showBlueSnack(tr.t('noDataExport'));
       return;
     }
     final excel = ex.Excel.createExcel();
@@ -200,6 +204,7 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context);
     final total = _bookings.length;
     final totalRevenue = _bookings.fold<int>(
       0,
@@ -207,21 +212,21 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
     );
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trip History Report'),
+        title: Text(tr.t('tripHistoryReport')),
         actions: [
           IconButton(
             onPressed: _exportExcel,
-            tooltip: 'Export Excel',
+            tooltip: tr.t('exportExcel'),
             icon: const Icon(Icons.table_view_outlined),
           ),
           IconButton(
             onPressed: _exportPdf,
-            tooltip: 'Export PDF',
+            tooltip: tr.t('exportPdf'),
             icon: const Icon(Icons.picture_as_pdf_outlined),
           ),
           IconButton(
             onPressed: _printPdf,
-            tooltip: 'Print',
+            tooltip: tr.t('print'),
             icon: const Icon(Icons.print_outlined),
           ),
         ],
@@ -250,18 +255,18 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
             const SizedBox(height: 12),
             Row(
               children: [
-                Expanded(child: _summaryCard('Trips', '$total')),
+                Expanded(child: _summaryCard(tr.t('trips'), '$total')),
                 const SizedBox(width: 10),
-                Expanded(child: _summaryCard('Revenue', 'AFN $totalRevenue')),
+                Expanded(child: _summaryCard(tr.t('revenue'), 'AFN $totalRevenue')),
               ],
             ),
             const SizedBox(height: 12),
             if (_loading && _bookings.isEmpty)
               const Center(child: CircularProgressIndicator()),
             if (!_loading && _bookings.isEmpty)
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(top: 30),
-                child: Center(child: Text('No reports found for this filter')),
+                child: Center(child: Text(tr.t('noReportsFound'))),
               ),
             ..._bookings.map(_reportCard),
             const SizedBox(height: 8),
@@ -272,7 +277,7 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
                     : () => setState(() {
                           _currentPage++;
                         }),
-                child: Text(_loading ? 'Loading...' : 'Load More'),
+                child: Text(_loading ? tr.t('loading') : tr.t('loadMore')),
               ),
           ],
         ),
@@ -336,13 +341,13 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
   String _filterLabel(ReportFilter filter) {
     switch (filter) {
       case ReportFilter.day:
-        return 'Day';
+        return AppLocalizations.of(context).t('day');
       case ReportFilter.week:
-        return 'Week';
+        return AppLocalizations.of(context).t('week');
       case ReportFilter.month:
-        return 'Month';
+        return AppLocalizations.of(context).t('month');
       case ReportFilter.year:
-        return 'Year';
+        return AppLocalizations.of(context).t('year');
     }
   }
 

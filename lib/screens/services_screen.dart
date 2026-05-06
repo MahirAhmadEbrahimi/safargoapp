@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 
 class ServicesScreen extends StatelessWidget {
   const ServicesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context);
     final services = [
       {'icon': Icons.directions_bus, 'title': 'Intercity Rides', 'desc': 'Book safe bus rides between cities'},
       {'icon': Icons.directions_car, 'title': 'Private Cars', 'desc': 'Comfort rides with trained drivers'},
@@ -15,7 +17,7 @@ class ServicesScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Services')),
+      appBar: AppBar(title: Text(tr.t('servicesTitle'))),
       body: GridView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: services.length,

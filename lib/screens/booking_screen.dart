@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'profile_screen.dart';
 import '../services/booking_service.dart';
+import '../l10n/app_localizations.dart';
 
 class BookingScreen extends StatefulWidget {
   const BookingScreen({super.key});
@@ -89,6 +90,10 @@ class _BookingScreenState extends State<BookingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context);
+    if (_to == 'Select destination') {
+      _to = tr.t('selectDestination');
+    }
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -98,12 +103,12 @@ class _BookingScreenState extends State<BookingScreen> {
             children: [
               _header(),
               const SizedBox(height: 16),
-              const Text(
-                'Book a Trip',
+              Text(
+                tr.t('bookTrip'),
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.w800),
               ),
-              const Text(
-                'Find the best route for your journey',
+              Text(
+                tr.t('findRoute'),
                 style: TextStyle(fontSize: 22, color: Color(0xFF6B7280)),
               ),
               const SizedBox(height: 14),
@@ -111,8 +116,8 @@ class _BookingScreenState extends State<BookingScreen> {
               const SizedBox(height: 12),
               _aiSuggestion(),
               const SizedBox(height: 14),
-              const Text(
-                'Available Vehicles',
+              Text(
+                tr.t('availableVehicles'),
                 style: TextStyle(fontSize: 33, fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 10),
@@ -124,8 +129,8 @@ class _BookingScreenState extends State<BookingScreen> {
                 ),
               ),
               const SizedBox(height: 14),
-              const Text(
-                'Select Seats',
+              Text(
+                tr.t('selectSeats'),
                 style: TextStyle(fontSize: 33, fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 8),
@@ -150,8 +155,8 @@ class _BookingScreenState extends State<BookingScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Estimated Price',
+                  Text(
+                    tr.t('estimatedPrice'),
                     style: TextStyle(color: Color(0xFF6B7280), fontSize: 16),
                   ),
                   Text(
@@ -176,8 +181,8 @@ class _BookingScreenState extends State<BookingScreen> {
                       borderRadius: BorderRadius.circular(14),
                     ),
                   ),
-                  child: const Text(
-                    'Book Now',
+                  child: Text(
+                    tr.t('bookNow'),
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                   ),
                 ),
@@ -251,14 +256,14 @@ class _BookingScreenState extends State<BookingScreen> {
         children: [
           _selectorTile(
             icon: Icons.my_location_outlined,
-            label: 'FROM',
+            label: AppLocalizations.of(context).t('from'),
             value: _from,
             onTap: () => _pickCity(true),
           ),
           const SizedBox(height: 8),
           _selectorTile(
             icon: Icons.send_outlined,
-            label: 'TO',
+            label: AppLocalizations.of(context).t('to'),
             value: _to,
             onTap: () => _pickCity(false),
             centerAction: Container(
@@ -351,7 +356,7 @@ class _BookingScreenState extends State<BookingScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('TRAVEL DATE',
+        Text(AppLocalizations.of(context).t('travelDate'),
             style: TextStyle(
                 color: Color(0xFF6B7280),
                 fontSize: 12,
@@ -390,7 +395,7 @@ class _BookingScreenState extends State<BookingScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('PASSENGERS',
+        Text(AppLocalizations.of(context).t('passengers'),
             style: TextStyle(
                 color: Color(0xFF6B7280),
                 fontSize: 12,
@@ -458,14 +463,14 @@ class _BookingScreenState extends State<BookingScreen> {
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: const Color(0xFFBFDBFE)),
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               Icon(Icons.auto_awesome, size: 16, color: Color(0xFF2563EB)),
               SizedBox(width: 8),
-              Text('AI Suggested',
+              Text(AppLocalizations.of(context).t('aiSuggested'),
                   style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
               Spacer(),
               _BestMatch(),
@@ -659,7 +664,7 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 
   void _swapRoute() {
-    if (_to == 'Select destination') return;
+    if (_to == AppLocalizations.of(context).t('selectDestination')) return;
     setState(() {
       final temp = _from;
       _from = _to;
@@ -703,7 +708,7 @@ class _BookingScreenState extends State<BookingScreen> {
       return;
     }
 
-    if (_to == 'Select destination') {
+    if (_to == AppLocalizations.of(context).t('selectDestination')) {
       _showBlueSnack('Please select destination');
       return;
     }
@@ -789,8 +794,8 @@ class _BestMatch extends StatelessWidget {
         color: const Color(0xFFDCFCE7),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: const Text(
-        'Best Match',
+      child: Text(
+        AppLocalizations.of(context).t('bestMatch'),
         style: TextStyle(
           color: Color(0xFF16A34A),
           fontWeight: FontWeight.w700,

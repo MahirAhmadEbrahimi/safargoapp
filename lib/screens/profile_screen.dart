@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../l10n/app_localizations.dart';
 import 'trip_history_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -25,8 +26,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: AppBar(title: Text(tr.t('profile'))),
       body: StreamBuilder<User?>(
         stream: _auth.authStateChanges(),
         builder: (context, snapshot) {
@@ -44,6 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _loggedInView(User user) {
+    final tr = AppLocalizations.of(context);
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
@@ -80,18 +83,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
         const SizedBox(height: 14),
         _profileTile(
           Icons.history,
-          'Trip History',
+          tr.t('tripHistory'),
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const TripHistoryScreen()),
             );
           },
         ),
-        _profileTile(Icons.payment_outlined, 'Payment Methods'),
-        _profileTile(Icons.settings_outlined, 'Settings'),
+        _languageTile(),
+        _profileTile(Icons.payment_outlined, tr.t('paymentMethods')),
+        _profileTile(Icons.settings_outlined, tr.t('settings')),
         _profileTile(
           Icons.logout,
-          'Logout',
+          tr.t('logout'),
           onTap: _loading ? null : _logout,
         ),
       ],
@@ -99,6 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _authForm() {
+    final tr = AppLocalizations.of(context);
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
@@ -113,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _isLogin ? 'Login with Email' : 'Sign Up with Email',
+                _isLogin ? tr.t('loginWithEmail') : tr.t('signupWithEmail'),
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
               ),
@@ -121,8 +126,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               TextField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
+                decoration: InputDecoration(
+                  labelText: tr.t('email'),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -130,8 +135,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               TextField(
                 controller: _passwordController,
                 obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
+                decoration: InputDecoration(
+                  labelText: tr.t('password'),
                   border: OutlineInputBorder(),
                   helperText: 'Password must be at least 6 characters',
                 ),
@@ -142,8 +147,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: ElevatedButton(
                   onPressed: _loading ? null : _submitAuth,
                   child: Text(_loading
-                      ? 'Please wait...'
-                      : (_isLogin ? 'Login' : 'Sign Up')),
+                      ? tr.t('pleaseWait')
+                      : (_isLogin ? tr.t('login') : tr.t('signup'))),
                 ),
               ),
               TextButton(
@@ -224,6 +229,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
         leading: Icon(icon, color: const Color(0xFF2563EB)),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
         trailing: const Icon(Icons.chevron_right),
+      ),
+    );
+  }
+
+  Widget _languageTile() {
+    final tr = AppLocalizations.of(context);
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
+      ),
+      child: ListTile(
+        leading: const Icon(Icons.language, color: Color(0xFF2563EB)),
+        title: Text(tr.t('language'),
+            style: const TextStyle(fontWeight: FontWeight.w600)),
+        trailing: DropdownButton<Locale>(
+          value: LocaleController.locale.value,
+          underline: const SizedBox.shrink(),
+          onChanged: (locale) {
+            if (locale != null) LocaleController.locale.value = locale;
+          },
+          items: [
+            DropdownMenuItem(
+              value: const Locale('en'),
+              child: Text(tr.t('english')),
+            ),
+            DropdownMenuItem(
+              value: const Locale('ps'),
+              child: Text(tr.t('pashto')),
+            ),
+            DropdownMenuItem(
+              value: const Locale('fa'),
+              child: Text(tr.t('dari')),
+            ),
+          ],
+        ),
       ),
     );
   }
