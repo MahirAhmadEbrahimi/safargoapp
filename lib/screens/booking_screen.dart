@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'profile_screen.dart';
+import '../services/booking_service.dart';
 
 class BookingScreen extends StatefulWidget {
   const BookingScreen({super.key});
@@ -10,6 +11,7 @@ class BookingScreen extends StatefulWidget {
 }
 
 class _BookingScreenState extends State<BookingScreen> {
+  final BookingService _bookingService = BookingService();
   final List<String> _cities = const [
     'Kabul',
     'Herat',
@@ -688,7 +690,7 @@ class _BookingScreenState extends State<BookingScreen> {
     });
   }
 
-  void _bookNow() {
+  Future<void> _bookNow() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       _showBlueSnack('Please login first to book a ticket');
@@ -715,9 +717,25 @@ class _BookingScreenState extends State<BookingScreen> {
     }
 
     final vehicleName = _vehicles[_vehicleIndex]['name'];
-    _showBlueSnack(
-      'Booked $vehicleName from $_from to $_to for AFN $_estimatedPrice',
-    );
+    try {
+      await _bookingService.createBooking(
+        from: _from,
+        to: _to,
+        travelDate: _travelDate!,
+        vehicleName: vehicleName.toString(),
+        passengers: _passengers,
+        seats: _selected.toList(),
+        price: _estimatedPrice,
+      );
+      _showBlueSnack(
+        'Booked $vehicleName from $_from to $_to for AFN $_estimatedPrice',
+      );
+      setState(() {
+        _selected.clear();
+      });
+    } catch (e) {
+      _showBlueSnack('Booking failed: $e');
+    }
   }
 
   void _showBlueSnack(String message) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'trip_history_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -77,7 +78,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         const SizedBox(height: 14),
-        _profileTile(Icons.history, 'Trip History'),
+        _profileTile(
+          Icons.history,
+          'Trip History',
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const TripHistoryScreen()),
+            );
+          },
+        ),
         _profileTile(Icons.payment_outlined, 'Payment Methods'),
         _profileTile(Icons.settings_outlined, 'Settings'),
         _profileTile(
