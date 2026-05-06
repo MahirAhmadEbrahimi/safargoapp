@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'profile_screen.dart';
 
 class BookingScreen extends StatefulWidget {
   const BookingScreen({super.key});
@@ -687,30 +689,45 @@ class _BookingScreenState extends State<BookingScreen> {
   }
 
   void _bookNow() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      _showBlueSnack('Please login first to book a ticket');
+      Future.delayed(const Duration(milliseconds: 700), () {
+        if (!mounted) return;
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const ProfileScreen()),
+        );
+      });
+      return;
+    }
+
     if (_to == 'Select destination') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select destination')),
-      );
+      _showBlueSnack('Please select destination');
       return;
     }
     if (_travelDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select travel date')),
-      );
+      _showBlueSnack('Please select travel date');
       return;
     }
     if (_selected.length != _passengers) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Select exactly $_passengers seat(s)')),
-      );
+      _showBlueSnack('Select exactly $_passengers seat(s)');
       return;
     }
 
     final vehicleName = _vehicles[_vehicleIndex]['name'];
+    _showBlueSnack(
+      'Booked $vehicleName from $_from to $_to for AFN $_estimatedPrice',
+    );
+  }
+
+  void _showBlueSnack(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        backgroundColor: const Color(0xFF2563EB),
+        behavior: SnackBarBehavior.floating,
         content: Text(
-          'Booked $vehicleName from $_from to $_to for AFN $_estimatedPrice',
+          message,
+          style: const TextStyle(color: Colors.white),
         ),
       ),
     );
